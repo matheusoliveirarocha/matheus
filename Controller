@@ -1,0 +1,41 @@
+package com.cassino.controller;
+
+import com.cassino.model.ContaBancaria;
+import com.cassino.model.Usuario;
+import com.cassino.service.CassinoService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.math.BigDecimal;
+
+@RestController
+@RequestMapping("/cassino")
+public class CassinoController {
+
+    @Autowired
+    private CassinoService service;
+
+    // Criar novo usuário
+    @PostMapping("/usuario")
+    public Usuario criarUsuario(@RequestParam Long id, @RequestParam String nome) {
+        return service.criarUsuario(id, nome);
+    }
+
+    // Depositar valor na conta do usuário
+    @PostMapping("/depositar")
+    public ContaBancaria depositar(@RequestParam Long id, @RequestParam BigDecimal valor) {
+        return service.depositar(id, valor);
+    }
+
+    // Consultar saldo atual
+    @GetMapping("/saldo")
+    public BigDecimal consultarSaldo(@RequestParam Long id) {
+        return service.consultarSaldo(id);
+    }
+
+    // Apostar valor (50% chance de dobrar, 50% de perder)
+    @PostMapping("/apostar")
+    public String apostar(@RequestParam Long id, @RequestParam BigDecimal valor) {
+        return service.apostar(id, valor);
+    }
+}
